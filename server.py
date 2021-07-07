@@ -1,6 +1,6 @@
 from flask import Flask, request
 import requests
-import config
+import config, messages
 
 app = Flask(__name__)
 
@@ -17,14 +17,22 @@ def send_message(chat_id, text):
 
 @app.route("/", methods=["POST"])
 def process():
+
+    id = request.json["message"]["from"]["id"]
     chat_id = request.json["message"]["chat"]["id"]
-    print(request.json)
-    send_message(chat_id, "Привет, Бубка! Налей Коте чаю, позязя!!!!!")
+    text = request.json["message"]["text"]
+
+    # print(request.json)
+
+    if text == "/start":
+        send_message(chat_id, messages.welcome_message)
+    elif text == "/help":
+        send_message(chat_id, messages.help_message)
     return {"ok": True}
 
 if __name__ == "__main__":
 
     # server_url update (ngrok)
-    #requests.post(get_api_url("setWebhook"), data={'url': config.SERVER_URL})
+    requests.post(get_api_url("setWebhook"), data={'url': config.SERVER_URL})
 
     app.run()

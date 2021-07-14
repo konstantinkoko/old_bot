@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import sqlite3 as sql
 
 flag = True
-id = 6207
+id = 6686
 #38312
 
 with sql.connect('test_data_base.db') as connect:
@@ -28,6 +28,4 @@ while id < 38312:
                 INSERT OR REPLACE INTO companies (company_id, company_name, ticker)
                 VALUES(?,?,?);
             """, (id, name, None))
-        #with open('id_names.json', 'a', encoding='utf-8') as g:
-        #    g.write(id_name + '\n')
     id += 1
